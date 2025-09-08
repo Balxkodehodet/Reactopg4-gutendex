@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext, useRef } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { AppContext } from "./Components/AppContext.jsx";
 
 export default function Layout({ categories = [] }) {
@@ -10,6 +10,7 @@ export default function Layout({ categories = [] }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
   const [query, setQuery] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     function handleEscape(e) {
@@ -38,6 +39,9 @@ export default function Layout({ categories = [] }) {
     e.preventDefault();
     setSearchResults(query);
     console.log("You searched for: ", query);
+    setSelectedCategory(null); // Sørg for at kategori ikke blokkerer søket
+    setOpen(false); // Lukk dropdown menyen hvis den er åpen
+    navigate("/"); // Naviger til hjem-siden for å vise søkeresultater
   }
   return (
     <>
@@ -83,9 +87,7 @@ export default function Layout({ categories = [] }) {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Søk etter bøker..."
           />
-          {/* <Link to="/"> */}
           <button type="submit">Søk</button>
-          {/* </Link> */}
         </form>
       </header>
       <main>
