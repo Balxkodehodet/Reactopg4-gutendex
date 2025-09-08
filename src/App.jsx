@@ -49,7 +49,7 @@ function App() {
       setLoading(false);
     }
   }
-  // Useeffect for å hente data når url eller selectedCategory endres
+  // Useeffect for å hente data når url eller selectedCategory eller searchresults endres
   useEffect(() => {
     const controller = new AbortController();
     fetchData(url);

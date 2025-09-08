@@ -7,7 +7,7 @@ export function AppProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState("");
   const [favourites, setFavourites] = useState(() => {
     // Hent favoritter fra localStorage hvis tilgjengelig
     const savedFavourites = localStorage.getItem("favouriteBooks");

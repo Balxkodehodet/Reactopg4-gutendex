@@ -83,9 +83,9 @@ export default function Layout({ categories = [] }) {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Søk etter bøker..."
           />
-          <Link to="/">
-            <button type="submit">Søk</button>
-          </Link>
+          {/* <Link to="/"> */}
+          <button type="submit">Søk</button>
+          {/* </Link> */}
         </form>
       </header>
       <main>

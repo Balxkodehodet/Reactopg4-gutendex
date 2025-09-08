@@ -35,7 +35,7 @@ const router = createBrowserRouter(
       ],
     },
   ],
-  { basename: "/Reactopg4-gutendex" } // 👈 viktig!
+  { basename: import.meta.env.BASE_URL } // viktig!
 );
 
 createRoot(document.getElementById("root")).render(
