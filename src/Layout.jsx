@@ -12,6 +12,7 @@ export default function Layout({ categories = [] }) {
     nextPage,
     page,
     setPage,
+    loading,
   } = useContext(AppContext);
 
   // Hooks
@@ -45,19 +46,27 @@ export default function Layout({ categories = [] }) {
   // funksjon for å takle søk etter bøker
   function handleSearch(e) {
     e.preventDefault();
-    setSearchResults(query);
     console.log("You searched for: ", query);
     setSelectedCategory(null); // Sørg for at kategori ikke blokkerer søket
     setOpen(false); // Lukk dropdown menyen hvis den er åpen
+    setPage(1); // Reset siden til side 1 når et nytt søk blir gjort
+
+    //Force en state change
+    setSearchResults("");
+    setTimeout(() => {
+      setSearchResults(query);
+    }, 0);
     navigate("/"); // Naviger til hjem-siden for å vise søkeresultater
   }
   //Funksjon for å takle neste side
   function handleNextPage() {
-    setSearchResults("");
+    // setSearchResults("");
     setNextButtonClicked(true);
     console.log("Next button clicked: ", nextButtonClicked);
     console.log("Fetching next page...", nextPage);
-    setPage((prev) => prev + 1);
+    if (loading === false) {
+      setPage((prev) => prev + 1);
+    }
   }
 
   return (
@@ -106,7 +115,9 @@ export default function Layout({ categories = [] }) {
           />
           <button type="submit">Søk</button>
         </form>
-        <button onClick={handleNextPage}>Neste side</button>
+        <button onClick={handleNextPage} disabled={!nextPage || loading}>
+          Neste side
+        </button>
         <p>side : {page}</p>
       </header>
       <main>
