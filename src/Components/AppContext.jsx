@@ -17,6 +17,8 @@ export function AppProvider({ children }) {
   const [nextPage, setNextPage] = useState(null);
   const [nextButtonClicked, setNextButtonClicked] = useState(false);
   const [page, setPage] = useState(1);
+  const [prevButtonClicked, setPrevButtonClicked] = useState(false);
+  const [prevPage, setPrevPage] = useState(null);
 
   return (
     <AppContext.Provider
@@ -41,6 +43,10 @@ export function AppProvider({ children }) {
         setNextButtonClicked,
         page,
         setPage,
+        prevButtonClicked,
+        setPrevButtonClicked,
+        prevPage,
+        setPrevPage,
       }}
     >
       {children}

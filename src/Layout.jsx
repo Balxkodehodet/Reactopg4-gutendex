@@ -13,6 +13,9 @@ export default function Layout({ categories = [] }) {
     page,
     setPage,
     loading,
+    prevPage,
+    setPrevButtonClicked,
+    prevButtonClicked,
   } = useContext(AppContext);
 
   // Hooks
@@ -60,12 +63,19 @@ export default function Layout({ categories = [] }) {
   }
   //Funksjon for å takle neste side
   function handleNextPage() {
-    // setSearchResults("");
     setNextButtonClicked(true);
     console.log("Next button clicked: ", nextButtonClicked);
     console.log("Fetching next page...", nextPage);
     if (loading === false) {
       setPage((prev) => prev + 1);
+    }
+  }
+  function handlePrevPage() {
+    setPrevButtonClicked(true);
+    console.log("prev button clicked", prevButtonClicked);
+    console.log("Fetching Previous Page", prevPage);
+    if (loading === false) {
+      setPage((prev) => prev - 1);
     }
   }
 
@@ -115,6 +125,9 @@ export default function Layout({ categories = [] }) {
           />
           <button type="submit">Søk</button>
         </form>
+        <button onClick={handlePrevPage} disabled={!prevPage || loading}>
+          Forrige side
+        </button>
         <button onClick={handleNextPage} disabled={!nextPage || loading}>
           Neste side
         </button>

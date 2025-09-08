@@ -19,15 +19,25 @@ function App() {
     setNextPage,
     nextButtonClicked,
     setNextButtonClicked,
+    prevButtonClicked,
+    setPrevButtonClicked,
+    prevPage,
+    setPrevPage,
   } = useContext(AppContext);
   let url = "";
   async function fetchData(url) {
     setError(null);
-    if (nextButtonClicked) {
+    if (prevButtonClicked) {
+      if (!prevPage) {
+        return;
+      }
+      console.log("setting url for fetching previous is in progress......");
+      url = prevPage;
+    } else if (nextButtonClicked) {
       if (!nextPage) {
         return;
       }
-      console.log("setting url for fetching is in progress......");
+      console.log("setting url for fetching Next is in progress......");
       url = nextPage;
     } else if (selectedCategory) {
       // Bruker `topic` parameter for å filtrere bøker
@@ -49,12 +59,14 @@ function App() {
       const response = await data2.json();
       setData(response.results || []);
       setNextPage(response.next || null);
+      setPrevPage(response.previous || null);
     } catch (err) {
       setError(`error fetching data: ${err.message}`);
     } finally {
       setLoading(false);
-      // Reset next trigger dersom den var aktiv
+      // Reset next/prev trigger dersom den var aktiv
       if (nextButtonClicked) setNextButtonClicked(false);
+      if (prevButtonClicked) setPrevButtonClicked(false);
     }
   }
   // Useeffect for å hente data når url eller selectedCategory eller searchresults eller nextButton clicked endres
@@ -74,12 +86,23 @@ function App() {
       return;
     }
     const controller = new AbortController();
-    fetchData(nextPage, controller.signal)
+    fetchData(url, controller.signal)
       .catch(() => {})
       .finally(() => setNextButtonClicked(false)); // reset AFTER fetch completes
     return () => controller.abort();
-  }, [nextButtonClicked, nextPage]);
+  }, [nextButtonClicked, nextPage, prevButtonClicked, prevPage]);
 
+  useEffect(() => {
+    if (!prevButtonClicked) return;
+    if (!prevPage) {
+      setPrevButtonClicked(false);
+      return;
+    }
+    const controller = new AbortController();
+    fetchData(url, controller.signal)
+      .catch(() => {})
+      .finally(() => setPrevButtonClicked(false)); // Reset AFTER fetch completes
+  });
   // Funksjon for å velge en bok og sette den som valgt i context slik at DetailBook.jsx kan bruke den
   function chosenBook(book) {
     console.log("You chose a book!", book.title);
