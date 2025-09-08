@@ -14,6 +14,9 @@ export function AppProvider({ children }) {
     return savedFavourites ? JSON.parse(savedFavourites) : [];
   });
   const [error, setError] = useState(null);
+  const [nextPage, setNextPage] = useState(null);
+  const [nextButtonClicked, setNextButtonClicked] = useState(false);
+  const [page, setPage] = useState(1);
 
   return (
     <AppContext.Provider
@@ -32,6 +35,12 @@ export function AppProvider({ children }) {
         setFavourites,
         error,
         setError,
+        nextPage,
+        setNextPage,
+        nextButtonClicked,
+        setNextButtonClicked,
+        page,
+        setPage,
       }}
     >
       {children}

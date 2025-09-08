@@ -3,7 +3,6 @@ import "./App.css";
 import { AppContext } from "./Components/AppContext.jsx";
 import loadingIcon from "./assets/loading.png";
 import { Link } from "react-router-dom";
-import FavouriteBooks from "./Components/FavouriteBooks.jsx";
 
 function App() {
   const {
@@ -12,12 +11,14 @@ function App() {
     setLoading,
     data,
     setData,
-    selectedBook,
     setSelectedBook,
     searchResults,
-    setSearchResults,
     error,
     setError,
+    nextPage,
+    setNextPage,
+    nextButtonClicked,
+    setNextButtonClicked,
   } = useContext(AppContext);
 
   let url = "";
@@ -32,6 +33,10 @@ function App() {
         url = `https://gutendex.com/books?topic=${selectedCategory.toLowerCase()}`;
       } else if (searchResults.length > 0) {
         url = `https://gutendex.com/books?search=${searchResults}`;
+      } else if (nextButtonClicked) {
+        console.log("setting url for fetching is in progress......");
+        url = nextPage;
+        setNextButtonClicked(false);
       } else {
         return;
       }
@@ -43,20 +48,21 @@ function App() {
       }
       const response = await data2.json();
       setData(response.results || []);
+      setNextPage(response.next || null);
     } catch (err) {
       setError(`error fetching data: ${err.message}`);
     } finally {
       setLoading(false);
     }
   }
-  // Useeffect for å hente data når url eller selectedCategory eller searchresults endres
+  // Useeffect for å hente data når url eller selectedCategory eller searchresults eller nextButton clicked endres
   useEffect(() => {
     const controller = new AbortController();
     fetchData(url);
     return () => {
       controller.abort(); // cleanup cancels previous fetch
     };
-  }, [url, selectedCategory, searchResults]);
+  }, [url, selectedCategory, searchResults, nextButtonClicked]);
 
   // Funksjon for å velge en bok og sette den som valgt i context slik at DetailBook.jsx kan bruke den
   function chosenBook(book) {

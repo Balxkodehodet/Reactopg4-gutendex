@@ -4,7 +4,15 @@ import { AppContext } from "./Components/AppContext.jsx";
 
 export default function Layout({ categories = [] }) {
   // useContext props
-  const { setSelectedCategory, setSearchResults } = useContext(AppContext);
+  const {
+    setSelectedCategory,
+    setSearchResults,
+    nextButtonClicked,
+    setNextButtonClicked,
+    nextPage,
+    page,
+    setPage,
+  } = useContext(AppContext);
 
   // Hooks
   const [open, setOpen] = useState(false);
@@ -43,6 +51,15 @@ export default function Layout({ categories = [] }) {
     setOpen(false); // Lukk dropdown menyen hvis den er åpen
     navigate("/"); // Naviger til hjem-siden for å vise søkeresultater
   }
+  //Funksjon for å takle neste side
+  function handleNextPage() {
+    setSearchResults("");
+    setNextButtonClicked(true);
+    console.log("Next button clicked: ", nextButtonClicked);
+    console.log("Fetching next page...", nextPage);
+    setPage((prev) => prev + 1);
+  }
+
   return (
     <>
       <header>
@@ -89,6 +106,8 @@ export default function Layout({ categories = [] }) {
           />
           <button type="submit">Søk</button>
         </form>
+        <button onClick={handleNextPage}>Neste side</button>
+        <p>side : {page}</p>
       </header>
       <main>
         <Outlet />
