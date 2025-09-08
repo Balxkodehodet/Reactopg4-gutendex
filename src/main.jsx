@@ -23,17 +23,20 @@ const categories = [
   "War",
   "Philosophy",
 ];
-const router = createBrowserRouter([
-  {
-    path: "/", // rot
-    element: <Layout categories={categories} />, // Layout med header
-    children: [
-      { index: true, element: <App /> }, // "/" viser Home
-      { path: "book/:id", element: <DetailBook /> },
-      { path: "FavouriteBooks", element: <FavouriteBooks /> },
-    ],
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      path: "/", // rot
+      element: <Layout categories={categories} />, // Layout med header
+      children: [
+        { index: true, element: <App /> }, // "/" viser Home
+        { path: "book/:id", element: <DetailBook /> },
+        { path: "FavouriteBooks", element: <FavouriteBooks /> },
+      ],
+    },
+  ],
+  { basename: "/Reactopg4-gutendex" } // 👈 viktig!
+);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
