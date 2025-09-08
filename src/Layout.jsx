@@ -46,6 +46,12 @@ export default function Layout({ categories = [] }) {
   function showCategories() {
     setOpen((prev) => !prev);
   }
+  // Når kategori blir klikket
+  function categoryClick(category) {
+    setSelectedCategory(category);
+    setPage(1);
+    setSearchResults("");
+  }
   // funksjon for å takle søk etter bøker
   function handleSearch(e) {
     e.preventDefault();
@@ -70,6 +76,7 @@ export default function Layout({ categories = [] }) {
       setPage((prev) => prev + 1);
     }
   }
+  // Funksjon for å takle forrige side
   function handlePrevPage() {
     setPrevButtonClicked(true);
     console.log("prev button clicked", prevButtonClicked);
@@ -105,7 +112,7 @@ export default function Layout({ categories = [] }) {
               >
                 {categories.map((category) => (
                   <li key={category}>
-                    <button onClick={() => setSelectedCategory(category)}>
+                    <button onClick={() => categoryClick(category)}>
                       {category}
                     </button>
                   </li>

@@ -55,7 +55,7 @@ export default function DetailBook() {
             Les boken her
           </a>
           <hr />
-          <p onClick={() => favourite(selectedBook)} class="favourite">
+          <p onClick={() => favourite(selectedBook)} className="favourite">
             <button>Sett favoritt bok</button>
             <img src={favouriteIcon} alt="favoritt ikon" />
           </p>
