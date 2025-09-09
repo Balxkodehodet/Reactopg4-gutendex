@@ -1,10 +1,17 @@
 import { useContext, useEffect } from "react";
 import { AppContext } from "./AppContext.jsx";
 import loadingIcon from "../assets/loading.png";
+import { Link } from "react-router-dom";
+
 export default function FavouriteBooks() {
+  function oneBook(book) {
+    setSelectedBook(book);
+  }
+
   // useContext props
 
-  const { favourites, setFavourites, loading, error } = useContext(AppContext);
+  const { favourites, loading, error, setSelectedBook } =
+    useContext(AppContext);
   useEffect(() => {
     // Lagre favoritter i localStorage når de endres
     localStorage.setItem("favouriteBooks", JSON.stringify(favourites));
@@ -26,11 +33,14 @@ export default function FavouriteBooks() {
           favourites.map((book) => (
             <div key={book.id} className="favourite-book">
               <h3>{book.title}</h3>
-              <img
-                className="book-img"
-                src={book.formats["image/jpeg"]}
-                alt={book.title}
-              ></img>
+              <Link to={`/book/${book.id}`}>
+                <img
+                  onClick={() => oneBook(book)}
+                  className="book-img"
+                  src={book.formats["image/jpeg"]}
+                  alt={book.title}
+                ></img>
+              </Link>
             </div>
           ))
         ) : (

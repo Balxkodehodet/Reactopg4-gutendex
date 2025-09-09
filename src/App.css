@@ -130,3 +130,8 @@ ul li button {
   color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.fav-btn {
+  margin: 20px;
+  padding: 20px;
+  border-radius: 10px;
+}

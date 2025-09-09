@@ -24,7 +24,9 @@ function App() {
     prevPage,
     setPrevPage,
   } = useContext(AppContext);
+
   let url = "";
+
   async function fetchData(url) {
     setError(null);
     if (prevButtonClicked) {
@@ -43,7 +45,9 @@ function App() {
       // Bruker `topic` parameter for å filtrere bøker
       url = `https://gutendex.com/books?topic=${selectedCategory.toLowerCase()}`;
     } else if (searchResults.length > 0) {
-      url = `https://gutendex.com/books?search=${searchResults}`;
+      url = `https://gutendex.com/books?search=${encodeURIComponent(
+        searchResults
+      )}`;
     } else {
       setData([]);
       return;

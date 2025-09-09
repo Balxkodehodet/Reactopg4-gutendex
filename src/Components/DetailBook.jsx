@@ -3,18 +3,15 @@ import { AppContext } from "./AppContext.jsx";
 import favouriteIcon from "../assets/favourite.png";
 export default function DetailBook() {
   // useContext props
-  const { selectedBook, selectedCategory, favourites, setFavourites } =
+  const { selectedBook, selectedCategory, setFavourites } =
     useContext(AppContext);
   console.log("selected Book: ", selectedBook);
 
   const favouriteRef = useRef(null);
-
   function favourite(book) {
     console.log(`Du har valgt ${selectedBook.title} som din favoritt bok!`);
-    favouriteRef.current.classList.toggle("hidden");
-    if (!favouriteRef.current.classList.contains("hidden")) {
-      favouriteRef.current.classList.add("book-img-large");
-    }
+    favouriteRef.current.classList.remove("hidden");
+    favouriteRef.current.classList.add("book-img-large");
     setFavourites((prev) => {
       // Sjekk om boken allerede er i favorittlisten
       if (prev.some((favBook) => favBook.id === book.id)) {
@@ -23,6 +20,16 @@ export default function DetailBook() {
         return [...prev, book]; // Ellers legg til den nye boken i listen
       }
     });
+  }
+  function removeFavourite(book) {
+    console.log(
+      `Du har fjernet ${selectedBook.title} vekk ifra å være en favoritt bok`
+    );
+    favouriteRef.current.classList.add("hidden");
+    if (!favouriteRef.current.classList.contains("hidden")) {
+      favouriteRef.current.classList.add("book-img-large");
+    }
+    setFavourites((prev) => prev.filter((favBook) => favBook.id !== book.id)); // Alle favoritt bøker som IKKE er lik valgt bok id blir returnert som en array til setFavoritt
   }
 
   return (
@@ -55,8 +62,16 @@ export default function DetailBook() {
             Les boken her
           </a>
           <hr />
-          <p onClick={() => favourite(selectedBook)} className="favourite">
-            <button>Sett favoritt bok</button>
+          <p className="favourite">
+            <button className="fav-btn" onClick={() => favourite(selectedBook)}>
+              Sett favoritt bok
+            </button>
+            <button
+              className="fav-btn"
+              onClick={() => removeFavourite(selectedBook)}
+            >
+              Fjern favoritt bok
+            </button>
             <img src={favouriteIcon} alt="favoritt ikon" />
           </p>
         </div>
