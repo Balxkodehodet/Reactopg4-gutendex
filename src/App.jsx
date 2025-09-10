@@ -23,6 +23,7 @@ function App() {
     setPrevButtonClicked,
     prevPage,
     setPrevPage,
+    setIsHomePage,
   } = useContext(AppContext);
 
   let url = "";
@@ -125,7 +126,10 @@ function App() {
           {data.map((book) => (
             <div id="div-booklist" key={book.id}>
               <li id="book">{book.title}</li>
-              <Link to={`/book/${book.id}`}>
+              <Link
+                to={`/book/${book.id}`}
+                onClick={() => setIsHomePage(false)}
+              >
                 <img
                   onClick={() => chosenBook(book)}
                   className="book-img"

@@ -25,6 +25,7 @@ export function AppProvider({ children }) {
   const [page, setPage] = useState(1);
   const [prevButtonClicked, setPrevButtonClicked] = useState(false);
   const [prevPage, setPrevPage] = useState(null);
+  const [isHomePage, setIsHomePage] = useState(false);
 
   return (
     <AppContext.Provider
@@ -57,6 +58,8 @@ export function AppProvider({ children }) {
         setFavIcon,
         favIconSaved,
         setFavIconSaved,
+        isHomePage,
+        setIsHomePage,
       }}
     >
       {children}

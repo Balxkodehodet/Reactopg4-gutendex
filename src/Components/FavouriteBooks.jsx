@@ -10,7 +10,7 @@ export default function FavouriteBooks() {
 
   // useContext props
 
-  const { favourites, loading, error, setSelectedBook, favIcon } =
+  const { favourites, loading, error, setSelectedBook } =
     useContext(AppContext);
 
   // useEffects for localstorage når favoritt bøker endres og
@@ -32,7 +32,7 @@ export default function FavouriteBooks() {
         <h2>Favoritt Bøker</h2>
         <p>Her vil dine favoritt bøker vises!</p>
       </div>
-      <div className="detailbook-container">
+      <div className="container-full">
         {favourites.length > 0 ? (
           favourites.map((book) => (
             <div key={book.id} className="favourite-book">

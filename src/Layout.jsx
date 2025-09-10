@@ -16,6 +16,8 @@ export default function Layout({ categories = [] }) {
     prevPage,
     setPrevButtonClicked,
     prevButtonClicked,
+    isHomePage,
+    setIsHomePage,
   } = useContext(AppContext);
 
   // Hooks
@@ -73,6 +75,7 @@ export default function Layout({ categories = [] }) {
     console.log("Next button clicked: ", nextButtonClicked);
     console.log("Fetching next page...", nextPage);
     if (loading === false) {
+      navigate("/"); // Naviger til hjem-siden for å vise søkeresultater
       setPage((prev) => prev + 1);
     }
   }
@@ -82,8 +85,16 @@ export default function Layout({ categories = [] }) {
     console.log("prev button clicked", prevButtonClicked);
     console.log("Fetching Previous Page", prevPage);
     if (loading === false) {
+      navigate("/"); // Naviger til hjem-siden for å vise søkeresultater
       setPage((prev) => prev - 1);
     }
+  }
+
+  function homeIsFalse() {
+    setIsHomePage(false);
+  }
+  function homeIsTrue() {
+    setIsHomePage(true);
   }
 
   return (
@@ -92,17 +103,17 @@ export default function Layout({ categories = [] }) {
         <nav>
           <ul>
             <li>
-              <Link to="/">
+              <Link to="/" onClick={homeIsTrue}>
                 <button>Home</button>
               </Link>
             </li>
             <li>
-              <Link to="/FavouriteBooks">
+              <Link to="/FavouriteBooks" onClick={homeIsFalse}>
                 <button>Vis favoritt bøker</button>
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/" onClick={homeIsTrue}>
                 <button onClick={() => showCategories()}>Kategorier</button>
               </Link>
               <ul
@@ -132,10 +143,16 @@ export default function Layout({ categories = [] }) {
           />
           <button type="submit">Søk</button>
         </form>
-        <button onClick={handlePrevPage} disabled={!prevPage || loading}>
+        <button
+          onClick={handlePrevPage}
+          disabled={!isHomePage || !prevPage || loading}
+        >
           Forrige side
         </button>
-        <button onClick={handleNextPage} disabled={!nextPage || loading}>
+        <button
+          onClick={handleNextPage}
+          disabled={!isHomePage || !nextPage || loading}
+        >
           Neste side
         </button>
         <p>side : {page}</p>
