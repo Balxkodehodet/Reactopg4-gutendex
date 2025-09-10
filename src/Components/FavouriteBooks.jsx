@@ -10,12 +10,16 @@ export default function FavouriteBooks() {
 
   // useContext props
 
-  const { favourites, loading, error, setSelectedBook } =
+  const { favourites, loading, error, setSelectedBook, favIcon } =
     useContext(AppContext);
+
+  // useEffects for localstorage når favoritt bøker endres og
+  // når fav icon endres.
   useEffect(() => {
     // Lagre favoritter i localStorage når de endres
     localStorage.setItem("favouriteBooks", JSON.stringify(favourites));
   }, [favourites]);
+
   return (
     <>
       {loading && (

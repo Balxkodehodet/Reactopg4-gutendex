@@ -1,17 +1,16 @@
-import { useContext, useRef } from "react";
+import { useContext, useRef, useEffect } from "react";
 import { AppContext } from "./AppContext.jsx";
 import favouriteIcon from "../assets/favourite.png";
 export default function DetailBook() {
   // useContext props
-  const { selectedBook, selectedCategory, setFavourites } =
+  const { selectedBook, selectedCategory, setFavourites, setFavIcon, favIcon } =
     useContext(AppContext);
   console.log("selected Book: ", selectedBook);
 
   const favouriteRef = useRef(null);
   function favourite(book) {
     console.log(`Du har valgt ${selectedBook.title} som din favoritt bok!`);
-    favouriteRef.current.classList.remove("hidden");
-    favouriteRef.current.classList.add("book-img-large");
+    // favouriteRef.current.classList.remove("hidden");
     setFavourites((prev) => {
       // Sjekk om boken allerede er i favorittlisten
       if (prev.some((favBook) => favBook.id === book.id)) {
@@ -20,18 +19,29 @@ export default function DetailBook() {
         return [...prev, book]; // Ellers legg til den nye boken i listen
       }
     });
+    setFavIcon(true);
   }
   function removeFavourite(book) {
     console.log(
       `Du har fjernet ${selectedBook.title} vekk ifra å være en favoritt bok`
     );
-    favouriteRef.current.classList.add("hidden");
-    if (!favouriteRef.current.classList.contains("hidden")) {
-      favouriteRef.current.classList.add("book-img-large");
-    }
+    // favouriteRef.current.classList.add("hidden");
+    // if (!favouriteRef.current.classList.contains("hidden")) {
+    favouriteRef.current.classList.add("book-img-large");
+    // }
     setFavourites((prev) => prev.filter((favBook) => favBook.id !== book.id)); // Alle favoritt bøker som IKKE er lik valgt bok id blir returnert som en array til setFavoritt
+    setFavIcon(false);
   }
-
+  // useEffect
+  //
+  useEffect(() => {
+    try {
+      // Lagre favoritt icon i localStorage når de endres
+      localStorage.setItem("favouriteIcon", JSON.stringify(favIcon));
+    } catch (e) {
+      console.error("Could not save favouriteIcon:", e);
+    }
+  }, [favIcon]);
   return (
     <>
       <div className="container-full">
@@ -75,7 +85,13 @@ export default function DetailBook() {
             <img src={favouriteIcon} alt="favoritt ikon" />
           </p>
         </div>
-        <img className="hidden" ref={favouriteRef} src={favouriteIcon} />
+        {favIcon && (
+          <img
+            className="book-img-large"
+            ref={favouriteRef}
+            src={favouriteIcon}
+          />
+        )}
       </div>
     </>
   );

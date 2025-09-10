@@ -13,6 +13,12 @@ export function AppProvider({ children }) {
     const savedFavourites = localStorage.getItem("favouriteBooks");
     return savedFavourites ? JSON.parse(savedFavourites) : [];
   });
+  const [favIcon, setFavIcon] = useState(false);
+  const [favIconSaved, setFavIconSaved] = useState(() => {
+    // Hent favoritter fra localStorage hvis tilgjengelig
+    const savedFavourites = localStorage.getItem("favouriteIcon");
+    return savedFavourites ? JSON.parse(savedFavourites) : [];
+  });
   const [error, setError] = useState(null);
   const [nextPage, setNextPage] = useState(null);
   const [nextButtonClicked, setNextButtonClicked] = useState(false);
@@ -47,6 +53,10 @@ export function AppProvider({ children }) {
         setPrevButtonClicked,
         prevPage,
         setPrevPage,
+        favIcon,
+        setFavIcon,
+        favIconSaved,
+        setFavIconSaved,
       }}
     >
       {children}
