@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext, useRef } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { AppContext } from "./Components/AppContext.jsx";
+import library from "./assets/library.jpg";
 
 export default function Layout({ categories = [] }) {
   // useContext props
@@ -18,6 +19,8 @@ export default function Layout({ categories = [] }) {
     prevButtonClicked,
     isHomePage,
     setIsHomePage,
+    isModalOpen,
+    setIsModalOpen,
   } = useContext(AppContext);
 
   // Hooks
@@ -25,6 +28,8 @@ export default function Layout({ categories = [] }) {
   const dropdownRef = useRef(null);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
+
+  // Meny modal
 
   useEffect(() => {
     function handleEscape(e) {
@@ -97,15 +102,66 @@ export default function Layout({ categories = [] }) {
     setIsHomePage(true);
     setPage(1); // Reset siden til side 1 når hjemmeside knappen blir trykket for å resette
   }
-
+  function modalHandler() {
+    setIsModalOpen((prev) => !prev);
+  }
   return (
     <>
       <header>
-        <nav>
+        <button type="button" className="modalBtn" onClick={modalHandler}>
+          {isModalOpen ? "Lukk Meny" : "Åpne meny"}
+        </button>
+        {isModalOpen && (
+          <dialog className="modalBtn" open>
+            <nav>
+              <ul>
+                <li>
+                  <Link to="/" onClick={homeIsTrue}>
+                    <button>Home</button>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/Credits" onClick={homeIsFalse}>
+                    <button>Credits</button>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/FavouriteBooks" onClick={homeIsFalse}>
+                    <button>Vis favoritt bøker</button>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/" onClick={homeIsTrue}>
+                    <button onClick={() => showCategories()}>Kategorier</button>
+                  </Link>
+                  <ul
+                    id="dropdown"
+                    ref={dropdownRef}
+                    className={open ? "dropdown" : "hidden"}
+                  >
+                    {categories.map((category) => (
+                      <li key={category}>
+                        <button onClick={() => categoryClick(category)}>
+                          {category}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </dialog>
+        )}
+        <nav className="navigation">
           <ul>
             <li>
               <Link to="/" onClick={homeIsTrue}>
                 <button>Home</button>
+              </Link>
+            </li>
+            <li>
+              <Link to="/Credits" onClick={homeIsFalse}>
+                <button>Credits</button>
               </Link>
             </li>
             <li>
@@ -133,6 +189,7 @@ export default function Layout({ categories = [] }) {
             </li>
           </ul>
         </nav>
+
         <form onSubmit={handleSearch} className="search-form">
           <label htmlFor="search-books">Søk etter bøker her: </label>
           <input
@@ -145,18 +202,20 @@ export default function Layout({ categories = [] }) {
           <button type="submit">Søk</button>
         </form>
         <button
+          type="button"
           onClick={handlePrevPage}
           disabled={!isHomePage || !prevPage || loading}
         >
           Forrige side
         </button>
         <button
+          type="button"
           onClick={handleNextPage}
           disabled={!isHomePage || !nextPage || loading}
         >
           Neste side
         </button>
-        <p>side : {page}</p>
+        <p className="page">side : {page}</p>
       </header>
       <main>
         <Outlet />

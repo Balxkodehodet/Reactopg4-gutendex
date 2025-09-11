@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.jsx";
 import Layout from "./Layout.jsx";
 import FavouriteBooks from "./Components/FavouriteBooks.jsx";
+import Credits from "./Credits.jsx";
 
 const categories = [
   "Fiction",
@@ -32,6 +33,7 @@ const router = createBrowserRouter(
         { index: true, element: <App /> }, // "/" viser Home
         { path: "book/:id", element: <DetailBook /> },
         { path: "FavouriteBooks", element: <FavouriteBooks /> },
+        { path: "Credits", element: <Credits /> },
       ],
     },
   ],

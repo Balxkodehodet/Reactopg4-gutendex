@@ -7,7 +7,13 @@
 .search-form {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  align-items: center;
+  margin: 20px;
+  padding: 20px;
+  width: 50%;
+  max-width: 100%;
+  background-color: lightblue;
+  border-radius: 50px;
 }
 .book-img {
   margin-top: 20px;
@@ -27,6 +33,25 @@ header {
   z-index: 100;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
+
+  background-image: url("./assets/library.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+nav {
+  width: 100%;
+}
+dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  width: 300px;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
 }
 ul {
   display: flex;
@@ -36,6 +61,14 @@ ul {
   justify-content: space-around;
   list-style-type: none;
   text-align: center;
+  max-width: 100%;
+}
+nav ul {
+  max-height: 80vh; /* don’t let it be taller than 80% of the viewport */
+  overflow-y: auto; /* add vertical scrolling if needed */
+}
+.page {
+  background-color: white;
 }
 #book-list {
   display: flex;
@@ -59,6 +92,9 @@ ul li button {
 }
 .hidden {
   display: none;
+}
+#search-books {
+  width: 100%;
 }
 .dropdown {
   display: flex;
@@ -160,7 +196,9 @@ ul li button {
   padding: 20px;
   border-radius: 10px;
 }
-
+.modalBtn {
+  display: none;
+}
 @media (max-width: 450px) {
   .search-form {
     display: block;
@@ -190,5 +228,22 @@ ul li button {
   .favourite-book {
     max-width: 80%;
     min-width: 80%;
+  }
+  nav ul {
+    flex-direction: column;
+    max-height: 80vh; /* don’t let it be taller than 80% of the viewport */
+    overflow-y: auto; /* add vertical scrolling if needed */
+  }
+  .dropdown {
+    margin: 20px;
+  }
+  .modalBtn {
+    display: block;
+  }
+  .navigation {
+    display: none;
+  }
+  .dropdown {
+    background-color: rgba(1, 255, 162, 1);
   }
 }
