@@ -57,16 +57,16 @@ export default function Layout({ categories = [] }) {
         categoryBtnRef.current && categoryBtnRef.current.contains(target);
 
       // Hvis vi er utenfor mobil versjon og klikket er verken på dropdown eller kategoriknappen -> lukk
-      if (window.innerwidth > 450) {
-        if (open && !clickedInsideDropdown && !clickedCategoryBtn) {
+      if (window.innerWidth > 450) {
+        if (open && !clickedInsideDropdown) {
           setOpen(false);
         }
       }
     }
-    document.addEventListener("click", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleEscape);
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEscape);
     };
   }, [open]);
