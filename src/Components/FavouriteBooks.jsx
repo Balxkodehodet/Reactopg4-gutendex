@@ -6,11 +6,12 @@ import { Link } from "react-router-dom";
 export default function FavouriteBooks() {
   function oneBook(book) {
     setSelectedBook(book);
+    setFavIcon(true); // Marker at dette er en favoritt når vi går til detaljsiden
   }
 
   // useContext props
 
-  const { favourites, loading, error, setSelectedBook } =
+  const { favourites, loading, error, setSelectedBook, setFavIcon } =
     useContext(AppContext);
 
   // useEffects for localstorage når favoritt bøker endres og

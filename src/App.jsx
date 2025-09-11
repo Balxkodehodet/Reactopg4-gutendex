@@ -24,7 +24,7 @@ function App() {
     prevPage,
     setPrevPage,
     setIsHomePage,
-    isHomePage,
+    page,
   } = useContext(AppContext);
 
   let url = "";
@@ -46,7 +46,7 @@ function App() {
     } else if (selectedCategory) {
       // Bruker `topic` parameter for å filtrere bøker
       url = `https://gutendex.com/books?topic=${selectedCategory.toLowerCase()}`;
-    } else if (searchResults.length > 0) {
+    } else if (searchResults && searchResults.length > 0) {
       url = `https://gutendex.com/books?search=${encodeURIComponent(
         searchResults
       )}`;
@@ -82,7 +82,7 @@ function App() {
     return () => {
       controller.abort(); // cleanup cancels previous fetch
     };
-  }, [url, selectedCategory, searchResults]);
+  }, [page, selectedCategory, searchResults]);
 
   // Separat useEffect: kjør kun når next er krevd
   useEffect(() => {

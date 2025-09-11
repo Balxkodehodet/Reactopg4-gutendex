@@ -17,7 +17,7 @@ export function AppProvider({ children }) {
   const [favIconSaved, setFavIconSaved] = useState(() => {
     // Hent favoritter fra localStorage hvis tilgjengelig
     const savedFavourites = localStorage.getItem("favouriteIcon");
-    return savedFavourites ? JSON.parse(savedFavourites) : [];
+    return savedFavourites ? JSON.parse(savedFavourites) : false;
   });
   const [error, setError] = useState(null);
   const [nextPage, setNextPage] = useState(null);

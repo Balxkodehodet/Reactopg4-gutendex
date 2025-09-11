@@ -1,13 +1,28 @@
 import { useContext, useRef, useEffect } from "react";
 import { AppContext } from "./AppContext.jsx";
 import favouriteIcon from "../assets/favourite.png";
+
 export default function DetailBook() {
   // useContext props
-  const { selectedBook, selectedCategory, setFavourites, setFavIcon, favIcon } =
-    useContext(AppContext);
+  const {
+    selectedBook,
+    selectedCategory,
+    favourites,
+    setFavourites,
+    setFavIcon,
+    favIcon,
+  } = useContext(AppContext);
   console.log("selected Book: ", selectedBook);
 
   const favouriteRef = useRef(null);
+
+  // Sett favIcon basert på om valgt bok ligger i favorites
+  useEffect(() => {
+    if (!selectedBook) return;
+    const isFav = favourites.some((b) => b.id === selectedBook.id);
+    setFavIcon(isFav);
+  }, [selectedBook, favourites, setFavIcon]);
+
   function favourite(book) {
     console.log(`Du har valgt ${selectedBook.title} som din favoritt bok!`);
     // favouriteRef.current.classList.remove("hidden");
@@ -42,6 +57,8 @@ export default function DetailBook() {
       console.error("Could not save favouriteIcon:", e);
     }
   }, [favIcon]);
+
+  if (!selectedBook) return <p>Ingen bok valgt.</p>;
   return (
     <>
       <div className="container-full">
