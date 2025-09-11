@@ -122,29 +122,32 @@ function App() {
         </p>
       )}
       {error && <p style={{ color: "red" }}>{error}</p>}
-      {data && (
-        <ul id="book-list">
-          {data.map((book) => (
-            <div className="div-booklist" key={book.id}>
-              <li id="book">{book.title}</li>
-              <Link
-                to={`/book/${book.id}`}
-                onClick={() => setIsHomePage(false)}
-              >
-                <img
-                  onClick={() => chosenBook(book)}
-                  className="book-img"
-                  src={book.formats["image/jpeg"]}
-                  alt={book.title}
-                />
-              </Link>
-              <p>
-                <strong>Forfatter:</strong>{" "}
-                {book.authors.map((a) => a.name).join(", ")}
-              </p>
-            </div>
-          ))}
-        </ul>
+      {data.length > 0 && (
+        <>
+          <h2>Trykk på en bok for mer detaljer</h2>
+          <ul id="book-list">
+            {data.map((book) => (
+              <div className="div-booklist" key={book.id}>
+                <li id="book">{book.title}</li>
+                <Link
+                  to={`/book/${book.id}`}
+                  onClick={() => setIsHomePage(false)}
+                >
+                  <img
+                    onClick={() => chosenBook(book)}
+                    className="book-img"
+                    src={book.formats["image/jpeg"]}
+                    alt={book.title}
+                  />
+                </Link>
+                <p>
+                  <strong>Forfatter:</strong>{" "}
+                  {book.authors.map((a) => a.name).join(", ")}
+                </p>
+              </div>
+            ))}
+          </ul>
+        </>
       )}
     </>
   );
