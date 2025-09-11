@@ -27,6 +27,7 @@ export default function Layout({ categories = [] }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
   const dropdownRef1 = useRef(null);
+  const modalBtnRef = useRef(null);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
@@ -39,11 +40,24 @@ export default function Layout({ categories = [] }) {
       }
     }
     function handleClickOutside(e) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-      if (dropdownRef1.current && !dropdownRef1.current.contains(e.target)) {
-        setIsModalOpen((prev) => !prev);
+      const target = e.target;
+      const clickedModalBtn =
+        modalBtnRef.current && modalBtnRef.current.contains(target);
+      const clickedDropdown =
+        dropdownRef.current && dropdownRef.current.contains(target);
+      const clickedDialog =
+        dropdownRef1.current && dropdownRef1.current.contains(target);
+
+      // Hvis klikket var på modal-knappen, ignorer bare modal-lukking
+      if (!clickedModalBtn) {
+        // lukk dropdown hvis klikket var utenfor dropdown
+        if (dropdownRef.current && !clickedDropdown) {
+          setOpen(false);
+        }
+        // lukk dialog/modal hvis klikket var utenfor dialog og ikke på modal-knappen
+        if (dropdownRef1.current && !clickedDialog) {
+          setIsModalOpen(false);
+        }
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -52,7 +66,7 @@ export default function Layout({ categories = [] }) {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [open]);
+  }, [open, isModalOpen]);
   // Funksjon for å toggle å vise kategorier i menyen
   function showCategories() {
     setOpen((prev) => !prev);
@@ -112,7 +126,12 @@ export default function Layout({ categories = [] }) {
   return (
     <>
       <header>
-        <button type="button" className="modalBtn" onClick={modalHandler}>
+        <button
+          type="button"
+          ref={modalBtnRef}
+          className="modalBtn"
+          onClick={modalHandler}
+        >
           {isModalOpen ? "Lukk Meny" : "Åpne meny"}
         </button>
         {isModalOpen && (
