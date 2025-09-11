@@ -229,11 +229,7 @@ export default function Layout({ categories = [] }) {
             </li>
             <li>
               <Link to="/" onClick={homeIsTrue}>
-                <button
-                  type="button"
-                  ref={categoryBtnRef}
-                  onClick={() => showCategories()}
-                >
+                <button type="button" onClick={() => showCategories()}>
                   Kategorier
                 </button>
               </Link>
