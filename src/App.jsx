@@ -63,7 +63,7 @@ function App() {
         return;
       }
       const response = await data2.json();
-      setData(response.results || []);
+      setData(response || []);
       setNextPage(response.next || null);
       setPrevPage(response.previous || null);
     } catch (err) {
@@ -122,11 +122,14 @@ function App() {
         </p>
       )}
       {error && <p style={{ color: "red" }}>{error}</p>}
-      {data.length > 0 && (
+      {data.results && (
         <>
-          <h2>Trykk på en bok for mer detaljer</h2>
+          <h2>
+            Fant {data.count} Resultater. <br></br> Trykk på en bok for mer
+            detaljer
+          </h2>
           <ul id="book-list">
-            {data.map((book) => (
+            {data.results.map((book) => (
               <div className="div-booklist" key={book.id}>
                 <li id="book">{book.title}</li>
                 <Link
