@@ -63,7 +63,10 @@ export default function DetailBook() {
     <>
       <div className="container-full">
         <div className="detailbook-container">
-          <h2>Detaljer for valgt bok: {selectedBook.title} </h2>
+          <h2>
+            Detaljer for valgt bok: <br></br> {selectedBook.title}{" "}
+          </h2>
+
           <li id="book">{selectedBook.title}</li>
           <img
             className="book-img"
@@ -90,6 +93,8 @@ export default function DetailBook() {
                 );
               })}
           </p>
+          <strong>Sammendrag : </strong>
+          <p>{selectedBook.summaries}</p>
           <a href={selectedBook.formats["text/html"]} target="_blank">
             Les boken her
           </a>
