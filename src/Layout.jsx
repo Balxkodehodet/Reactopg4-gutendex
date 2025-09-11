@@ -25,8 +25,9 @@ export default function Layout({ categories = [] }) {
 
   // Hooks
   const [open, setOpen] = useState(false);
-  const dropdownRef = useRef(null);
-  const dropdownRef1 = useRef(null);
+  const desktopDropdownRef = useRef(null);
+  const modalDropdownRef = useRef(null);
+  const categoryBtnRef = useRef(null);
   const modalBtnRef = useRef(null);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
@@ -43,21 +44,29 @@ export default function Layout({ categories = [] }) {
       const target = e.target;
       const clickedModalBtn =
         modalBtnRef.current && modalBtnRef.current.contains(target);
-      const clickedDropdown =
-        dropdownRef.current && dropdownRef.current.contains(target);
-      const clickedDialog =
-        dropdownRef1.current && dropdownRef1.current.contains(target);
+      const clickedDesktopDropdown =
+        desktopDropdownRef.current &&
+        desktopDropdownRef.current.contains(target);
+      const clickedModalDropdown =
+        modalDropdownRef.current && modalDropdownRef.current.contains(target);
+      const clickedCategoryBtn =
+        categoryBtnRef.current && categoryBtnRef.current.contains(target);
 
-      // Hvis klikket var på modal-knappen, ignorer bare modal-lukking
-      if (!clickedModalBtn) {
-        // lukk dropdown hvis klikket var utenfor dropdown
-        if (dropdownRef.current && !clickedDropdown) {
+      //Ignorer klikk på kategoriknappen - vi håndterer toggle separat
+      if (!clickedCategoryBtn) {
+        //Lukk desktop dropdown hvis åpen og klikk utenfor
+        if (open && desktopDropdownRef.current && !clickedDesktopDropdown) {
           setOpen(false);
         }
-        // lukk dialog/modal hvis klikket var utenfor dialog og ikke på modal-knappen
-        if (dropdownRef1.current && !clickedDialog) {
-          setIsModalOpen(false);
-        }
+      }
+      // Lukk dialog/modal hvis åpen og klikk utenfor dialog (men ignorerer modal knappen)
+      if (
+        isModalOpen &&
+        modalDropdownRef.current &&
+        !clickedModalDropdown &&
+        !clickedModalBtn
+      ) {
+        setIsModalOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -135,7 +144,7 @@ export default function Layout({ categories = [] }) {
           {isModalOpen ? "Lukk Meny" : "Åpne meny"}
         </button>
         {isModalOpen && (
-          <dialog ref={dropdownRef1} className="dialog-modalBtn" open>
+          <dialog ref={modalDropdownRef} className="dialog-modalBtn" open>
             <nav>
               <ul>
                 <li>
@@ -159,7 +168,7 @@ export default function Layout({ categories = [] }) {
                   </Link>
                   <ul
                     id="dropdown"
-                    ref={dropdownRef}
+                    ref={modalDropdownRef}
                     className={open ? "dropdown" : "hidden"}
                   >
                     {categories.map((category) => (
@@ -194,11 +203,13 @@ export default function Layout({ categories = [] }) {
             </li>
             <li>
               <Link to="/" onClick={homeIsTrue}>
-                <button onClick={() => showCategories()}>Kategorier</button>
+                <button ref={categoryBtnRef} onClick={() => showCategories()}>
+                  Kategorier
+                </button>
               </Link>
               <ul
                 id="dropdown"
-                ref={dropdownRef}
+                ref={desktopDropdownRef}
                 className={open ? "dropdown" : "hidden"}
               >
                 {categories.map((category) => (
