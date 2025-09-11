@@ -94,6 +94,9 @@ ul li button {
   border-radius: 50px;
   color: black;
 }
+header button {
+  margin: 10px;
+}
 .hidden {
   display: none;
 }
