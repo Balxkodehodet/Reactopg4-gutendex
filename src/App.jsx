@@ -25,6 +25,7 @@ function App() {
     setPrevPage,
     setIsHomePage,
     page,
+    query,
   } = useContext(AppContext);
 
   let url = "";
@@ -125,8 +126,9 @@ function App() {
       {data.results && (
         <>
           <h2>
-            Fant {data.count} Resultater i {selectedCategory} <br></br> Trykk på
-            en bok for mer detaljer
+            Fant {data.count} Resultater for <br></br>
+            {selectedCategory ? selectedCategory : query} <br></br> Trykk på en
+            bok for mer detaljer
           </h2>
           <ul id="book-list">
             {data.results.map((book) => (

@@ -27,6 +27,7 @@ export function AppProvider({ children }) {
   const [prevPage, setPrevPage] = useState(null);
   const [isHomePage, setIsHomePage] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [query, setQuery] = useState("");
 
   return (
     <AppContext.Provider
@@ -63,6 +64,8 @@ export function AppProvider({ children }) {
         setIsHomePage,
         isModalOpen,
         setIsModalOpen,
+        query,
+        setQuery,
       }}
     >
       {children}

@@ -211,6 +211,11 @@ header button {
 .dialog-modalBtn {
   display: none;
 }
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 @media (max-width: 450px) {
   .buttonContainer {
     display: flex;

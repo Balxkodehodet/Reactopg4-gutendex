@@ -21,6 +21,8 @@ export default function Layout({ categories = [] }) {
     setIsHomePage,
     isModalOpen,
     setIsModalOpen,
+    query,
+    setQuery,
   } = useContext(AppContext);
 
   // Hooks
@@ -29,7 +31,6 @@ export default function Layout({ categories = [] }) {
   const modalDropdownRef = useRef(null);
   const categoryBtnRef = useRef(null);
   const modalBtnRef = useRef(null);
-  const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
   // Meny modal
@@ -250,8 +251,8 @@ export default function Layout({ categories = [] }) {
           >
             Neste side
           </button>
+          <p className="page">side : {page}</p>
         </div>
-        <p className="page">side : {page}</p>
       </header>
       <main>
         <Outlet />
