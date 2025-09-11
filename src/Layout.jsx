@@ -109,6 +109,8 @@ export default function Layout({ categories = [] }) {
     setPage(1);
     setSearchResults("");
     navigate("/");
+    setOpen(false);
+    setIsModalOpen(false);
   }
   // funksjon for å takle søk etter bøker
   function handleSearch(e) {
