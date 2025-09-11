@@ -26,6 +26,7 @@ export default function Layout({ categories = [] }) {
   // Hooks
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const dropdownRef1 = useRef(null);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
@@ -40,6 +41,9 @@ export default function Layout({ categories = [] }) {
     function handleClickOutside(e) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setOpen(false);
+      }
+      if (dropdownRef1.current && !dropdownRef1.current.contains(e.target)) {
+        setIsModalOpen((prev) => !prev);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -112,7 +116,7 @@ export default function Layout({ categories = [] }) {
           {isModalOpen ? "Lukk Meny" : "Åpne meny"}
         </button>
         {isModalOpen && (
-          <dialog className="modalBtn" open>
+          <dialog ref={dropdownRef1} className="dialog-modalBtn" open>
             <nav>
               <ul>
                 <li>

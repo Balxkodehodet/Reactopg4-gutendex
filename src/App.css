@@ -37,6 +37,10 @@ header {
   background-image: url("./assets/library.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 nav {
   width: 100%;
@@ -199,6 +203,9 @@ ul li button {
 .modalBtn {
   display: none;
 }
+.dialog-modalBtn {
+  display: none;
+}
 @media (max-width: 450px) {
   .search-form {
     display: block;
@@ -238,7 +245,14 @@ ul li button {
     margin: 20px;
   }
   .modalBtn {
+    margin-top: 20px;
     display: block;
+    border-radius: 50px;
+  }
+  .dialog-modalBtn {
+    margin-top: 180px;
+    display: block;
+    border-radius: 50px;
   }
   .navigation {
     display: none;
