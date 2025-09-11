@@ -126,7 +126,7 @@ function App() {
       {data.results && (
         <>
           <h2>
-            Fant {data.count} Resultater for <br></br>
+            Fant {data.count} Resultater for søk:
             {selectedCategory ? selectedCategory : query} <br></br> Trykk på en
             bok for mer detaljer
           </h2>
