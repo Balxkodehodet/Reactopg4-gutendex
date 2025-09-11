@@ -242,10 +242,7 @@ export default function Layout({ categories = [] }) {
                   <li key={category}>
                     <button
                       type="button"
-                      onClick={() => {
-                        console.log("clicked category (Desktop):", category);
-                        categoryClick(category);
-                      }}
+                      onClick={() => categoryClick(category)}
                     >
                       {category}
                     </button>
