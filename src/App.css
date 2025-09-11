@@ -123,6 +123,15 @@ header button {
   background-color: teal;
   color: white;
 }
+#modal-dropdown li a {
+  opacity: 1;
+  color: black;
+}
+#modal-dropdown li a:hover {
+  opacity: 1;
+  background-color: teal;
+  color: white;
+}
 #book {
   background-color: rgb(255, 71, 71);
   margin-top: 20px;
@@ -225,6 +234,9 @@ header button {
   .search-form {
     display: block;
     margin: 20px;
+  }
+  dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5); /* semi-transparent svart bakgrunn */
   }
   button {
     margin-top: 20px;

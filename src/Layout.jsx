@@ -28,12 +28,15 @@ export default function Layout({ categories = [] }) {
   // Hooks
   const [open, setOpen] = useState(false);
   const desktopDropdownRef = useRef(null);
+  const dialogRef = useRef(null);
   const modalDropdownRef = useRef(null);
   const categoryBtnRef = useRef(null);
-  const modalBtnRef = useRef(null);
   const navigate = useNavigate();
 
   // Meny modal
+  // To forskjellige useEffect for desktop versjon av meny og mobil versjon
+  // Det ble bare tull når begge var i samme
+  // Desktop useEffect for meny dropdown og klikk utenfor meny
 
   useEffect(() => {
     function handleEscape(e) {
@@ -42,50 +45,73 @@ export default function Layout({ categories = [] }) {
       }
     }
     function handleClickOutside(e) {
+      if (!open) return; // gjør ingenting hvis dropdown ikke er åpen
+
       const target = e.target;
-      const clickedModalBtn =
-        modalBtnRef.current && modalBtnRef.current.contains(target);
-      const clickedDesktopDropdown =
+
+      // Desktop dropdown
+      const clickedInsideDropdown =
         desktopDropdownRef.current &&
         desktopDropdownRef.current.contains(target);
-      const clickedModalDropdown =
-        modalDropdownRef.current && modalDropdownRef.current.contains(target);
       const clickedCategoryBtn =
         categoryBtnRef.current && categoryBtnRef.current.contains(target);
 
-      //Ignorer klikk på kategoriknappen - vi håndterer toggle separat
-      if (!clickedCategoryBtn) {
-        //Lukk desktop dropdown hvis åpen og klikk utenfor
-        if (open && desktopDropdownRef.current && !clickedDesktopDropdown) {
+      // Hvis vi er utenfor mobil versjon og klikket er verken på dropdown eller kategoriknappen -> lukk
+      if (window.innerwidth > 450) {
+        if (open && !clickedInsideDropdown && !clickedCategoryBtn) {
           setOpen(false);
         }
       }
-      // Lukk dialog/modal hvis åpen og klikk utenfor dialog (men ignorerer modal knappen)
-      if (
-        isModalOpen &&
-        modalDropdownRef.current &&
-        !clickedModalDropdown &&
-        !clickedModalBtn
-      ) {
-        setIsModalOpen(false);
+    }
+    document.addEventListener("click", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [open]);
+
+  // useEffect for mobil versjon (modal) versjonen av meny
+  // Hvis klikk utenfor kategori legg ned kategori,
+  // Hvis klikk utenfor meny legg ned meny
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (!isModalOpen) return; // gjør ingenting hvis dropdown ikke er åpen
+
+      const target = e.target;
+      // Modal dropdown
+      const clickedModalDropdown =
+        modalDropdownRef.current && modalDropdownRef.current.contains(target);
+      const clickedDialog =
+        dialogRef.current && dialogRef.current.contains(target);
+      if (window.innerWidth < 450) {
+        if (isModalOpen && !clickedDialog) {
+          setIsModalOpen(false);
+          setOpen(false);
+        }
+        if (isModalOpen && !clickedModalDropdown) {
+          setOpen(false);
+        }
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
     };
-  }, [open, isModalOpen]);
+  }, [isModalOpen]);
+
   // Funksjon for å toggle å vise kategorier i menyen
   function showCategories() {
     setOpen((prev) => !prev);
   }
   // Når kategori blir klikket
   function categoryClick(category) {
+    console.log("CategoryClick:", category);
     setSelectedCategory(category);
     setPage(1);
     setSearchResults("");
+    navigate("/");
   }
   // funksjon for å takle søk etter bøker
   function handleSearch(e) {
@@ -136,21 +162,16 @@ export default function Layout({ categories = [] }) {
   return (
     <>
       <header>
-        <button
-          type="button"
-          ref={modalBtnRef}
-          className="modalBtn"
-          onClick={modalHandler}
-        >
+        <button type="button" className="modalBtn" onClick={modalHandler}>
           {isModalOpen ? "Lukk Meny" : "Åpne meny"}
         </button>
         {isModalOpen && (
-          <dialog ref={modalDropdownRef} className="dialog-modalBtn" open>
+          <dialog ref={dialogRef} className="dialog-modalBtn" open>
             <nav>
               <ul>
                 <li>
                   <Link to="/" onClick={homeIsTrue}>
-                    <button>Home</button>
+                    <button type="button">Home</button>
                   </Link>
                 </li>
                 <li>
@@ -164,17 +185,24 @@ export default function Layout({ categories = [] }) {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/" onClick={homeIsTrue}>
-                    <button onClick={() => showCategories()}>Kategorier</button>
-                  </Link>
+                  <button type="button" onClick={() => showCategories()}>
+                    Kategorier
+                  </button>
+
                   <ul
-                    id="dropdown"
+                    id="modal-dropdown"
                     ref={modalDropdownRef}
                     className={open ? "dropdown" : "hidden"}
                   >
                     {categories.map((category) => (
                       <li key={category}>
-                        <button onClick={() => categoryClick(category)}>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            console.log("clicked category (btn):", category);
+                            categoryClick(category);
+                          }}
+                        >
                           {category}
                         </button>
                       </li>
@@ -204,7 +232,11 @@ export default function Layout({ categories = [] }) {
             </li>
             <li>
               <Link to="/" onClick={homeIsTrue}>
-                <button ref={categoryBtnRef} onClick={() => showCategories()}>
+                <button
+                  type="button"
+                  ref={categoryBtnRef}
+                  onClick={() => showCategories()}
+                >
                   Kategorier
                 </button>
               </Link>
@@ -215,7 +247,13 @@ export default function Layout({ categories = [] }) {
               >
                 {categories.map((category) => (
                   <li key={category}>
-                    <button onClick={() => categoryClick(category)}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        console.log("clicked category (Desktop):", category);
+                        categoryClick(category);
+                      }}
+                    >
                       {category}
                     </button>
                   </li>
