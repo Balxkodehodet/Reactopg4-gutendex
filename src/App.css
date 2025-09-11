@@ -212,6 +212,11 @@ header button {
   display: none;
 }
 @media (max-width: 450px) {
+  .buttonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
   .search-form {
     display: block;
     margin: 20px;

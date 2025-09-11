@@ -205,20 +205,22 @@ export default function Layout({ categories = [] }) {
           />
           <button type="submit">Søk</button>
         </form>
-        <button
-          type="button"
-          onClick={handlePrevPage}
-          disabled={!isHomePage || !prevPage || loading}
-        >
-          Forrige side
-        </button>
-        <button
-          type="button"
-          onClick={handleNextPage}
-          disabled={!isHomePage || !nextPage || loading}
-        >
-          Neste side
-        </button>
+        <div className="buttonContainer">
+          <button
+            type="button"
+            onClick={handlePrevPage}
+            disabled={!isHomePage || !prevPage || loading}
+          >
+            Forrige side
+          </button>
+          <button
+            type="button"
+            onClick={handleNextPage}
+            disabled={!isHomePage || !nextPage || loading}
+          >
+            Neste side
+          </button>
+        </div>
         <p className="page">side : {page}</p>
       </header>
       <main>
