@@ -30,7 +30,6 @@ export default function Layout({ categories = [] }) {
   const desktopDropdownRef = useRef(null);
   const dialogRef = useRef(null);
   const modalDropdownRef = useRef(null);
-  const categoryBtnRef = useRef(null);
   const navigate = useNavigate();
 
   // Meny modal
@@ -53,8 +52,6 @@ export default function Layout({ categories = [] }) {
       const clickedInsideDropdown =
         desktopDropdownRef.current &&
         desktopDropdownRef.current.contains(target);
-      const clickedCategoryBtn =
-        categoryBtnRef.current && categoryBtnRef.current.contains(target);
 
       // Hvis vi er utenfor mobil versjon og klikket er verken på dropdown eller kategoriknappen -> lukk
       if (window.innerWidth > 450) {
