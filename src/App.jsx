@@ -125,8 +125,8 @@ function App() {
       {data.results && (
         <>
           <h2>
-            Fant {data.count} Resultater. <br></br> Trykk på en bok for mer
-            detaljer
+            Fant {data.count} Resultater i {selectedCategory} <br></br> Trykk på
+            en bok for mer detaljer
           </h2>
           <ul id="book-list">
             {data.results.map((book) => (
