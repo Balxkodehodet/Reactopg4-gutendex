@@ -95,6 +95,7 @@ export default function Layout({ categories = [] }) {
   }
   function homeIsTrue() {
     setIsHomePage(true);
+    setPage(1); // Reset siden til side 1 når hjemmeside knappen blir trykket for å resette
   }
 
   return (

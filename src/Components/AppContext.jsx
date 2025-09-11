@@ -25,7 +25,7 @@ export function AppProvider({ children }) {
   const [page, setPage] = useState(1);
   const [prevButtonClicked, setPrevButtonClicked] = useState(false);
   const [prevPage, setPrevPage] = useState(null);
-  const [isHomePage, setIsHomePage] = useState(false);
+  const [isHomePage, setIsHomePage] = useState(true);
 
   return (
     <AppContext.Provider

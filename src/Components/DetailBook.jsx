@@ -66,7 +66,12 @@ export default function DetailBook() {
           </p>
           <p>
             <strong>Kategori: </strong>
-            {selectedCategory}
+            {selectedCategory ||
+              selectedBook.bookshelves.map((cat, index) => {
+                return (
+                  <span key={index}>{cat.replace("Category: ", " ")}</span>
+                );
+              })}
           </p>
           <a href={selectedBook.formats["text/html"]} target="_blank">
             Les boken her

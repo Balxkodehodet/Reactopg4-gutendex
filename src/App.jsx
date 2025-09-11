@@ -24,6 +24,7 @@ function App() {
     prevPage,
     setPrevPage,
     setIsHomePage,
+    isHomePage,
   } = useContext(AppContext);
 
   let url = "";
@@ -81,7 +82,7 @@ function App() {
     return () => {
       controller.abort(); // cleanup cancels previous fetch
     };
-  }, [selectedCategory, searchResults]);
+  }, [url, selectedCategory, searchResults]);
 
   // Separat useEffect: kjør kun når next er krevd
   useEffect(() => {
@@ -95,7 +96,7 @@ function App() {
       .catch(() => {})
       .finally(() => setNextButtonClicked(false)); // reset AFTER fetch completes
     return () => controller.abort();
-  }, [nextButtonClicked, nextPage, prevButtonClicked, prevPage]);
+  }, [nextButtonClicked, nextPage]);
 
   useEffect(() => {
     if (!prevButtonClicked) return;
@@ -107,7 +108,7 @@ function App() {
     fetchData(url, controller.signal)
       .catch(() => {})
       .finally(() => setPrevButtonClicked(false)); // Reset AFTER fetch completes
-  });
+  }, [prevButtonClicked, prevPage]);
   // Funksjon for å velge en bok og sette den som valgt i context slik at DetailBook.jsx kan bruke den
   function chosenBook(book) {
     console.log("You chose a book!", book.title);
@@ -124,7 +125,7 @@ function App() {
       {data && (
         <ul id="book-list">
           {data.map((book) => (
-            <div id="div-booklist" key={book.id}>
+            <div className="div-booklist" key={book.id}>
               <li id="book">{book.title}</li>
               <Link
                 to={`/book/${book.id}`}
