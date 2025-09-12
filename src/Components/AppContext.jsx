@@ -28,6 +28,7 @@ export function AppProvider({ children }) {
   const [isHomePage, setIsHomePage] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [showButton, setShowButton] = useState(false);
 
   return (
     <AppContext.Provider
@@ -66,6 +67,8 @@ export function AppProvider({ children }) {
         setIsModalOpen,
         query,
         setQuery,
+        showButton,
+        setShowButton,
       }}
     >
       {children}

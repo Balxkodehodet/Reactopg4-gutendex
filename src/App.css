@@ -26,6 +26,12 @@
 .book-img:hover {
   transform: scale(1.1);
 }
+.backtoTop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  border: solid 2px black;
+}
 header {
   top: 0px;
   position: sticky;

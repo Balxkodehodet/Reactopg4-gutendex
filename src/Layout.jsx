@@ -1,10 +1,9 @@
 import { useEffect, useState, useContext, useRef } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { AppContext } from "./Components/AppContext.jsx";
-import library from "./assets/library.jpg";
 
 export default function Layout({ categories = [] }) {
-  // useContext props
+  // globale useContext props og hooks
   const {
     setSelectedCategory,
     setSearchResults,

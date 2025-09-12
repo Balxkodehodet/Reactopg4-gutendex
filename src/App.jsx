@@ -4,6 +4,13 @@ import { AppContext } from "./Components/AppContext.jsx";
 import loadingIcon from "./assets/loading.png";
 import { Link } from "react-router-dom";
 
+// eksporter scrollToTop for å bruke i layout.jsx eller andre komponenter
+export function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}
 function App() {
   const {
     selectedCategory,
@@ -26,7 +33,25 @@ function App() {
     setIsHomePage,
     page,
     query,
+    showButton,
+    setShowButton,
   } = useContext(AppContext);
+
+  // vis back to top knappen useEffect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []); // Legg til en gang
 
   let url = "";
 
@@ -153,6 +178,11 @@ function App() {
             ))}
           </ul>
         </>
+      )}
+      {showButton && (
+        <button className="backtoTop" onClick={scrollToTop}>
+          Tilbake til topp
+        </button>
       )}
     </>
   );
