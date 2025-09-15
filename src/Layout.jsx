@@ -134,6 +134,7 @@ export default function Layout({ categories = [] }) {
       setSearchResults(query);
     }, 0);
     navigate("/"); // Naviger til hjem-siden for å vise søkeresultater
+    setIsHomePage(true); // Sett isHomePage til true for å vise pagineringsknapper
   }
   //Funksjon for å takle neste side
   function handleNextPage() {
