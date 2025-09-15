@@ -201,10 +201,11 @@ export default function Layout({ categories = [] }) {
                   </Link>
                 </li>
                 <li>
-                  <button type="button" onClick={() => showCategories()}>
-                    Kategorier
-                  </button>
-
+                  <Link to="/" onClick={homeIsTrue}>
+                    <button type="button" onClick={() => showCategories()}>
+                      Kategorier
+                    </button>
+                  </Link>
                   <ul
                     id="modal-dropdown"
                     ref={modalDropdownRef}
@@ -214,10 +215,7 @@ export default function Layout({ categories = [] }) {
                       <li key={category}>
                         <button
                           type="button"
-                          onClick={() => {
-                            console.log("clicked category (btn):", category);
-                            categoryClick(category);
-                          }}
+                          onClick={() => categoryClick(category)}
                         >
                           {category}
                         </button>

@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import "./App.css";
 import { AppContext } from "./Components/AppContext.jsx";
 import loadingIcon from "./assets/loading.png";
@@ -101,10 +101,10 @@ function App() {
       if (prevButtonClicked) setPrevButtonClicked(false);
     }
   }
-  // Useeffect for å hente data når url eller selectedCategory eller searchresults eller nextButton clicked endres
+  // Useeffect for å hente data når url eller selectedCategory eller searchresults eller page endres
   useEffect(() => {
     const controller = new AbortController();
-    fetchData(url);
+    fetchData(url, controller.signal);
     return () => {
       controller.abort(); // cleanup cancels previous fetch
     };
