@@ -150,11 +150,13 @@ function App() {
       {error && <p style={{ color: "red" }}>{error}</p>}
       {data.results && (
         <>
-          <h2>
-            Fant {data.count} Resultater for søk:
-            {selectedCategory ? selectedCategory : query} <br></br> Trykk på en
-            bok for mer detaljer
-          </h2>
+          {!loading && (
+            <h2>
+              Fant {data.count} Resultater for søk:
+              {selectedCategory ? selectedCategory : query}
+              <br></br> Trykk på en bok for mer detaljer
+            </h2>
+          )}
           <ul id="book-list">
             {data.results.map((book) => (
               <div className="div-booklist" key={book.id}>

@@ -29,6 +29,7 @@ export default function Layout({ categories = [] }) {
   const desktopDropdownRef = useRef(null);
   const dialogRef = useRef(null);
   const modalDropdownRef = useRef(null);
+  const modalBtnRef = useRef(null);
   const navigate = useNavigate();
 
   // Meny modal
@@ -80,6 +81,9 @@ export default function Layout({ categories = [] }) {
         modalDropdownRef.current && modalDropdownRef.current.contains(target);
       const clickedDialog =
         dialogRef.current && dialogRef.current.contains(target);
+      const clickedModalBtn =
+        modalBtnRef.current && modalBtnRef.current.contains(target);
+
       if (window.innerWidth < 450) {
         if (isModalOpen && !clickedDialog) {
           setIsModalOpen(false);
@@ -88,11 +92,16 @@ export default function Layout({ categories = [] }) {
         if (isModalOpen && !clickedModalDropdown) {
           setOpen(false);
         }
+        if (isModalOpen && clickedModalBtn) {
+          setIsModalOpen(false);
+        }
       }
     }
+    document.addEventListener("clicked", handleClickOutside);
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
+      document.removeEventListener("clicked", handleClickOutside);
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isModalOpen]);
@@ -155,12 +164,21 @@ export default function Layout({ categories = [] }) {
     setPage(1); // Reset siden til side 1 når hjemmeside knappen blir trykket for å resette
   }
   function modalHandler() {
-    setIsModalOpen((prev) => !prev);
+    if (isModalOpen) {
+      setIsModalOpen(false);
+    } else {
+      setIsModalOpen(true);
+    }
   }
   return (
     <>
       <header>
-        <button type="button" className="modalBtn" onClick={modalHandler}>
+        <button
+          type="button"
+          ref={modalBtnRef}
+          className="modalBtn"
+          onClick={modalHandler}
+        >
           {isModalOpen ? "Lukk Meny" : "Åpne meny"}
         </button>
         {isModalOpen && (
